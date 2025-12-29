@@ -45,6 +45,12 @@ Before you begin, ensure you have the following installed:
 - Bootstrap 5.3.8
 - ESLint
 
+<img width="1919" height="1085" alt="image" src="https://github.com/user-attachments/assets/258ceaea-8a61-417f-b74b-1d8be53714e0" />
+<img width="1919" height="1070" alt="image" src="https://github.com/user-attachments/assets/0d82ed22-6749-4cef-be7c-7cef7d16f5c2" />
+<img width="1919" height="1073" alt="image" src="https://github.com/user-attachments/assets/132b2c94-a819-409a-a1ff-510687ccd44c" />
+
+
+
 ## 📦 Installation & Setup
 
 ### 1. Clone the Repository
