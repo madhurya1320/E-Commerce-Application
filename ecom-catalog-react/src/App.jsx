@@ -9,8 +9,10 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     fetch('http://localhost:8080/api/categories')
       .then(response => response.json())
       .then(data => {
@@ -24,8 +26,12 @@ function App() {
         );
         
         setProducts(allProducts);
+        setLoading(false);
       })
-      .catch(err => console.error('Fetch error:', err));
+      .catch(err => {
+        console.error('Fetch error:', err);
+        setLoading(false);
+      });
   }, []);
 
   const handleSearchChange = (event) => {
@@ -56,49 +62,87 @@ function App() {
 
   return (
     <>
-      {/* Snowflakes */}
-      {[...Array(9)].map((_, i) => (
-        <div key={i} className="snowflake">❄</div>
-      ))}
-      
-      {/* Christmas Tree */}
-      <div className="christmas-tree">🎄</div>
+      <div className='app-container'>
+        {/* Header */}
+        <header className='app-header'>
+          <div className='header-content'>
+            <div className='logo-section'>
+              <h1 className='app-title'>Maddy's Store</h1>
+              <p className='app-tagline'>Premium E-Commerce Solutions</p>
+            </div>
+          </div>
+        </header>
 
-      <div className='container'>
-        <h1>Maddy's Store 🎄</h1>
-        <p className="subtitle">Cozy deals, warm vibes, and festive finds.</p>
-        
-        <div className="row align-items-center mb-4">
-          <div className='col-md-3 col-sm-12 mb-3'>
-            <CategoryFilter categories={categories} onSelect={handleCategorySelect} />
-          </div>
-          <div className='col-md-5 col-sm-12 mb-3'>
-            <input
-              type='text'
-              className='form-control'
-              placeholder='🎁 Search magical gifts...'
-              onChange={handleSearchChange}
-              value={searchTerm}
-            />
-          </div>
-          <div className='col-md-4 col-sm-12 mb-3'>
-            <select className='form-control' onChange={handleSortChange} value={sortOrder}>
-              <option value="asc">🎅 Price: Low to High</option>
-              <option value="desc">🦌 Price: High to Low</option>
-            </select>
-          </div>
-        </div>
+        <main className='container'>
+          {/* Filter Section */}
+          <div className='filter-section'>
+            <div className='filter-container'>
+              <div className='filter-group'>
+                <label className='filter-label'>Category</label>
+                <CategoryFilter categories={categories} onSelect={handleCategorySelect} />
+              </div>
 
-        <div>
-          {filteredProducts.length ? (
-            <ProductList products={filteredProducts} />
-          ) : (
-            <p>❄️ No products available - check back soon!</p>
-          )}
-        </div>
+              <div className='filter-group'>
+                <label className='filter-label'>Search</label>
+                <div className='search-wrapper'>
+                  <input
+                    type='text'
+                    className='form-control search-input'
+                    placeholder='Search products...'
+                    onChange={handleSearchChange}
+                    value={searchTerm}
+                  />
+                  <span className='search-icon'>🔍</span>
+                </div>
+              </div>
+
+              <div className='filter-group'>
+                <label className='filter-label'>Sort By</label>
+                <select className='form-control sort-select' onChange={handleSortChange} value={sortOrder}>
+                  <option value="asc">Price: Low to High</option>
+                  <option value="desc">Price: High to Low</option>
+                </select>
+              </div>
+            </div>
+
+            {selectedCategory && (
+              <button className='clear-filters-btn' onClick={() => handleCategorySelect("")}>
+                ✕ Clear Filters
+              </button>
+            )}
+          </div>
+
+          {/* Products Section */}
+          <section className='products-section'>
+            {loading ? (
+              <div className='loading-container'>
+                <div className='spinner'></div>
+                <p>Loading products...</p>
+              </div>
+            ) : filteredProducts.length > 0 ? (
+              <>
+                <div className='products-header'>
+                  <h2>Products <span className='product-count'>({filteredProducts.length})</span></h2>
+                </div>
+                <ProductList products={filteredProducts} />
+              </>
+            ) : (
+              <div className='empty-state'>
+                <div className='empty-icon'>📦</div>
+                <h3>No Products Found</h3>
+                <p>Try adjusting your filters or search terms</p>
+              </div>
+            )}
+          </section>
+        </main>
+
+        {/* Footer */}
+        <footer className='app-footer'>
+          <p>&copy; 2025 Maddy's Store. All rights reserved.</p>
+        </footer>
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

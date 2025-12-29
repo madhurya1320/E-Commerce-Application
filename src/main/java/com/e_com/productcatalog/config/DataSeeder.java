@@ -63,7 +63,13 @@ public class DataSeeder implements CommandLineRunner {
         Blender.setImageUrl("https://images.unsplash.com/photo-1570222094114-d054a817e56b?auto=format&fit=crop&w=600&h=400&q=80");
         Blender.setCategory(home);
 
+        Product WinterGloves = new Product();
+        WinterGloves.setName("Winter Gloves");
+        WinterGloves.setDescription("Warn Winter Gloves");
+        WinterGloves.setPrice(40.99);
+        WinterGloves.setImageUrl("https://images.unsplash.com/photo-1675652807734-fdfbfea4fc4e?auto=format&fit=crop&w=600&h=400&q=80");
+        WinterGloves.setCategory(clothing);
 
-        productRepository.saveAll(Arrays.asList(phone, laptop, jacket, Blender));
+        productRepository.saveAll(Arrays.asList(phone, laptop, jacket, Blender, WinterGloves));
     }
 }
